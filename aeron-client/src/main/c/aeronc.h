@@ -187,20 +187,22 @@ void *aeron_context_get_on_new_subscription_clientd(aeron_context_t *context);
  * Function called by aeron_client_t to deliver notifications that an aeron_image_t was added.
  *
  * @param clientd to be returned in the call.
+ * @param registration_id of the subscription
  * @param subscription that image is part of.
  * @param image that has become available.
  */
-typedef void (*aeron_on_available_image_t)(void *clientd, aeron_subscription_t *subscription, aeron_image_t *image);
+typedef void (*aeron_on_available_image_t)(void *clientd, int64_t registration_id, aeron_subscription_t *subscription, aeron_image_t *image);
 
 /**
  * Function called by aeron_client_t to deliver notifications that an aeron_image_t has been removed from use and
  * should not be used any longer.
  *
  * @param clientd to be returned in the call.
+ * @param registration_id of the subscription
  * @param subscription that image is part of.
  * @param image that has become unavailable.
  */
-typedef void (*aeron_on_unavailable_image_t)(void *clientd, aeron_subscription_t *subscription, aeron_image_t *image);
+typedef void (*aeron_on_unavailable_image_t)(void *clientd, int64_t registration_id, aeron_subscription_t *subscription, aeron_image_t *image);
 
 /**
  * Function called by aeron_client_t to deliver notifications that a counter has been added to the driver.
@@ -1274,6 +1276,21 @@ int64_t aeron_exclusive_publication_offer_block(
 int64_t aeron_exclusive_publication_channel_status(aeron_exclusive_publication_t *publication);
 
 /**
+ * Get the exclusive publication's stream id
+ *
+ * @param exclusive publication this
+ * @return stream id
+ */
+int32_t aeron_exclusive_publication_stream_id(aeron_exclusive_publication_t *publication);
+
+/**
+ * Get the publication's session id
+ * @param publication this
+ * @return session id
+ */
+int32_t aeron_exclusive_publication_session_id(aeron_exclusive_publication_t *publication);
+
+/**
  * Fill in a structure with the constants in use by a publication.
  *
  * @param publication to get the constants for.
@@ -1837,6 +1854,13 @@ int aeron_image_set_position(aeron_image_t *image, int64_t position);
  * @return true if at the end of the stream or false if not.
  */
 bool aeron_image_is_end_of_stream(aeron_image_t *image);
+
+/**
+ * Get the image's session id
+ * @param image this
+ * @return session id
+*/
+int32_t aeron_image_session_id(aeron_image_t *image);
 
 /**
  * The position the stream reached when EOS was received from the publisher. The position will be

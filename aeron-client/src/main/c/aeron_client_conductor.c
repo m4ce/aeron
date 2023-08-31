@@ -2211,7 +2211,7 @@ int aeron_client_conductor_on_available_image(
 
         if (NULL != subscription->on_available_image)
         {
-            subscription->on_available_image(subscription->on_available_image_clientd, subscription, image);
+            subscription->on_available_image(subscription->on_available_image_clientd, subscription->registration_id, subscription, image);
         }
     }
 
@@ -2239,7 +2239,7 @@ int aeron_client_conductor_on_unavailable_image(aeron_client_conductor_t *conduc
 
             if (NULL != subscription->on_unavailable_image)
             {
-                subscription->on_unavailable_image(subscription->on_unavailable_image_clientd, subscription, image);
+                subscription->on_unavailable_image(subscription->on_unavailable_image_clientd, subscription->registration_id, subscription, image);
             }
 
             if (aeron_client_conductor_linger_image(conductor, image) < 0)

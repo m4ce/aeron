@@ -871,6 +871,17 @@ int64_t aeron_exclusive_publication_offer_block(
     }
 }
 
+int32_t aeron_exclusive_publication_stream_id(aeron_exclusive_publication_t *publication)
+{
+    return publication->stream_id;
+}
+
+int32_t aeron_exclusive_publication_session_id(aeron_exclusive_publication_t *publication)
+{
+    return publication->session_id;
+}
+
+
 bool aeron_exclusive_publication_is_closed(aeron_exclusive_publication_t *publication)
 {
     bool is_closed = true;
